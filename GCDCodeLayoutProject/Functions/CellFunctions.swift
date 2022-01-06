@@ -7,19 +7,25 @@
 
 import Foundation
 import UIKit
+import Then
 
-extension UITableViewCell {
-     func drawView(v: UIView) {
-          v.layer.borderColor = UIColor.gray.cgColor
-          v.layer.borderWidth = 1
-          self.addSubview(v)
-     }
-     
-     func drawLabel(lbl: UILabel, size: CGFloat, text: String, v: UIView) {
-          lbl.textAlignment = .center
-          lbl.font = UIFont.systemFont(ofSize: size, weight: .bold)
-          lbl.lineBreakMode = .byCharWrapping
-          lbl.text = text
-          v.addSubview(lbl)
-     }
+extension UIView {
+    func drawView() -> UIView {
+        return UIView().then {
+            $0.layer.borderColor = UIColor.gray.cgColor
+            $0.layer.borderWidth = 1
+            self.addSubview($0)
+        }
+    }
+    
+    func drawLabel(size: CGFloat, text: String? = nil, view: UIView, weight: UIFont.Weight = .medium) -> UILabel {
+        return UILabel().then {
+            $0.font = .systemFont(ofSize: size, weight: weight)
+            $0.textAlignment = .center
+            $0.lineBreakMode = .byCharWrapping
+            $0.text = text
+            
+            view.addSubview($0)
+        }
+    }
 }
